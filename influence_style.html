@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+<title>Influencing Styles Diagnostic</title>
+<style>
+    :root {
+        --AIMblue: #4353A3;
+        --darkBlue: #38416D;
+        --teal: #5DC8B9;
+        --cream: #F1EEDE;
+        --grey: #e7e9ec;
+        --rust: #AF4510;
+        --navy: #12195C;
+        --white: #ffffff;
+        --lightBlue: #AEBAE4;
+        --push: #AF4510;
+        --pull: #4353A3;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        font-family: "IBM Plex Sans", sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: #f8f7f3;
+    }
+
+    .instructions {
+        max-width: 800px;
+        margin: 0 auto 20px;
+        background-color: var(--cream);
+        padding: 20px 24px;
+        border-radius: 8px;
+        border-left: 4px solid var(--AIMblue);
+    }
+
+    .instructions p { margin: 6px 0; font-size: 15px; line-height: 1.6; color: var(--darkBlue); }
+    .instructions strong { color: var(--navy); }
+
+    .scale-legend {
+        max-width: 800px;
+        margin: 0 auto 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .scale-legend span {
+        background: white;
+        border: 1.5px solid var(--lightBlue);
+        border-radius: 6px;
+        padding: 5px 12px;
+        font-size: 13px;
+        color: var(--darkBlue);
+    }
+
+    .scale-legend span strong { color: var(--AIMblue); }
+
+    .quiz-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #F1EEDE30;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .questions-container {
+        padding: 24px 30px;
+        height: 75vh;
+        overflow-y: scroll;
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 24px 0 10px;
+    }
+
+    .section-header:first-child { margin-top: 0; }
+
+    .section-badge {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 4px 10px;
+        border-radius: 20px;
+        color: white;
+    }
+
+    .push-badge { background: var(--push); }
+    .pull-badge { background: var(--pull); }
+
+    .section-header h3 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--darkBlue);
+        opacity: 0.7;
+    }
+
+    .item-row {
+        display: flex;
+        align-items: center;
+        margin: 6px 0;
+        padding: 12px 16px;
+        background: white;
+        border-radius: 8px;
+        border: 1.5px solid transparent;
+        transition: border-color 0.2s;
+        gap: 12px;
+    }
+
+    .item-row:hover { border-color: var(--lightBlue); }
+
+    .item-num {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--lightBlue);
+        min-width: 22px;
+        text-align: right;
+    }
+
+    .item-text {
+        flex-grow: 1;
+        font-size: 15px;
+        color: var(--darkBlue);
+        line-height: 1.4;
+    }
+
+    .score-input {
+        width: 56px;
+        padding: 6px 8px;
+        border: 2px solid var(--lightBlue);
+        border-radius: 6px;
+        font-size: 16px;
+        font-family: "IBM Plex Sans", sans-serif;
+        font-weight: 600;
+        color: var(--darkBlue);
+        text-align: center;
+        background: #fafafa;
+        transition: border-color 0.2s;
+        -moz-appearance: textfield;
+    }
+
+    .score-input::-webkit-outer-spin-button,
+    .score-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+    .score-input:focus {
+        outline: none;
+        border-color: var(--AIMblue);
+        background: white;
+    }
+
+    .score-input.filled { border-color: var(--teal); }
+
+    .divider {
+        height: 1px;
+        background: var(--lightBlue);
+        opacity: 0.4;
+        margin: 20px 0 4px;
+    }
+
+    .submit-button {
+        display: block;
+        padding: 15px 30px;
+        background-color: var(--teal);
+        color: var(--white);
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 18px;
+        font-family: "IBM Plex Sans", sans-serif;
+        font-weight: bold;
+        margin: 24px auto 8px;
+    }
+
+    .submit-button:hover { background-color: #4db5a5; }
+
+    /* Results */
+    #results {
+        max-width: 800px;
+        margin: 15px auto;
+        background-color: var(--cream);
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        display: none;
+        padding: 30px;
+    }
+
+    #results h2 { color: var(--AIMblue); margin-top: 0; }
+    #results h3 { color: var(--darkBlue); margin-top: 24px; margin-bottom: 6px; }
+    #results p { color: var(--darkBlue); line-height: 1.6; margin-top: 0; }
+
+    .totals-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin: 20px 0;
+    }
+
+    .total-card {
+        border-radius: 10px;
+        padding: 18px 22px;
+        color: white;
+    }
+
+    .total-card.push { background: var(--push); }
+    .total-card.pull { background: var(--pull); }
+
+    .total-card .total-label { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85; margin-bottom: 4px; }
+    .total-card .total-score { font-size: 36px; font-weight: 700; line-height: 1; }
+    .total-card .total-max { font-size: 13px; opacity: 0.7; margin-top: 2px; }
+
+    .substyles-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .substyle-card {
+        background: white;
+        border-radius: 8px;
+        padding: 12px 16px;
+        border-left: 4px solid var(--lightBlue);
+    }
+
+    .substyle-card.push-sub { border-left-color: var(--push); }
+    .substyle-card.pull-sub { border-left-color: var(--pull); }
+
+    .substyle-name { font-size: 13px; font-weight: 700; color: var(--darkBlue); margin-bottom: 4px; }
+    .substyle-score { font-size: 22px; font-weight: 700; color: var(--darkBlue); }
+    .substyle-max { font-size: 12px; color: #999; }
+
+    .bar-wrap { background: #e7e9ec; border-radius: 4px; height: 6px; margin-top: 8px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+    .push-bar { background: var(--push); }
+    .pull-bar { background: var(--pull); }
+
+    .dominant-banner {
+        background: var(--teal);
+        color: white;
+        padding: 14px 20px;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .style-desc {
+        background: white;
+        border-radius: 8px;
+        padding: 16px 20px;
+        margin-top: 8px;
+    }
+
+    @media (max-width: 600px) {
+        .totals-grid, .substyles-grid { grid-template-columns: 1fr; }
+        .quiz-container { margin: 0; }
+    }
+</style>
+</head>
+<body>
+
+<div class="instructions">
+    <p><strong>Activity: What's your preferred influencing style?</strong></p>
+    <p>Reflect on each item and allocate points that best represent how you generally behave when aiming to influence others.</p>
+</div>
+
+<div class="scale-legend">
+    <span><strong>0</strong> — Never</span>
+    <span><strong>1</strong> — Rarely</span>
+    <span><strong>2</strong> — Sometimes</span>
+    <span><strong>3</strong> — Often</span>
+    <span><strong>4</strong> — Always</span>
+</div>
+
+<div class="quiz-container">
+    <form name="influence" onsubmit="return false">
+        <div class="questions-container">
+
+            <!-- PUSH styles -->
+            <div class="section-header">
+                <span class="section-badge push-badge">Push</span>
+                <h3>Force / Rules / Exchange / Persuasion / Assertion</h3>
+            </div>
+
+            <!-- items in document order 1–40 but grouped by style below via scoring -->
+            <!-- All 40 items listed in original order for simplicity -->
+
+            <div id="items-container"></div>
+
+            <button class="submit-button" onclick="calculateResults()">Submit &amp; View Results</button>
+        </div>
+    </form>
+</div>
+
+<div id="results"></div>
+
+<script>
+// All 40 items in order
+const items = [
+    { n: 1,  text: "I exert pressure in order to achieve my objectives." },
+    { n: 2,  text: "I get others to support my projects by offering to help them in some way." },
+    { n: 3,  text: "I help others to see the exciting possibilities in a situation." },
+    { n: 4,  text: "I listen carefully when people express views which are different from mine." },
+    { n: 5,  text: "I present strong arguments for the proposals I favour." },
+    { n: 6,  text: "I am quick to make my wishes and desires known to others." },
+    { n: 7,  text: "I verbalise standards that I think others ought to meet." },
+    { n: 8,  text: "I am open with information as opposed to secretive." },
+    { n: 9,  text: "I make sure my optimism and enthusiasm are contagious." },
+    { n: 10, text: "I smooth over disagreements." },
+    { n: 11, text: "I help others see the goals and values they have in common." },
+    { n: 12, text: "I tell people directly when they don't meet my expectations or requirements." },
+    { n: 13, text: "I use the power of my position to get others to go along." },
+    { n: 14, text: "I hold to my position until others show willingness to compromise or make concessions." },
+    { n: 15, text: "I use praise selectively to get others to change or improve their performance." },
+    { n: 16, text: "My belief in others helps them to feel stronger and more confident." },
+    { n: 17, text: "I use humour or anecdotes effectively to help make a point." },
+    { n: 18, text: "I put forward proposals and suggestions that I feel have merit even if they are unpopular." },
+    { n: 19, text: "I am open about my motives and intentions." },
+    { n: 20, text: "I work with others to help get the best solution to the problem." },
+    { n: 21, text: "I am prepared to make a fuss to get things done." },
+    { n: 22, text: "I use rational argument to make my points." },
+    { n: 23, text: "I help other people to solve their own problems." },
+    { n: 24, text: "I have a clear code of principles that I communicate to others." },
+    { n: 25, text: "I can communicate what needs to be done to create a better future." },
+    { n: 26, text: "I check my understanding of what others have said." },
+    { n: 27, text: "I defuse conflict situations using humour or an appropriate change of subject." },
+    { n: 28, text: "I challenge ideas or suggestions I disagree with or have questions about." },
+    { n: 29, text: "I exchange favours in order to get things accomplished." },
+    { n: 30, text: "I present my ideas with vigour." },
+    { n: 31, text: "I exert pressure on people in order to achieve my objectives." },
+    { n: 32, text: "I take steps to acquire formal authority to enable me to implement my plans." },
+    { n: 33, text: "I take great care to educate others so that they can understand what I am thinking." },
+    { n: 34, text: "I bargain to get what I want." },
+    { n: 35, text: "I strive to inspire people by the way I present ideas." },
+    { n: 36, text: "If individuals are not participating, I go out of my way to involve them." },
+    { n: 37, text: "I am quick to state my wishes to others." },
+    { n: 38, text: "I use my personality and charm to advantage." },
+    { n: 39, text: "I try to find common ground with others." },
+    { n: 40, text: "I work steadily to build trust into relationships to enable effective joint working." }
+];
+
+// Style definitions with their item numbers
+const pushStyles = {
+    A: { name: "Force",             items: [1,13,21,31] },
+    B: { name: "Rules & Standards", items: [7,12,24,32] },
+    C: { name: "Exchange",          items: [2,14,29,34] },
+    D: { name: "Persuasion",        items: [5,18,22,33] },
+    E: { name: "Assertion",         items: [6,19,28,37] }
+};
+
+const pullStyles = {
+    F: { name: "Personal Magnetism",  items: [9,17,30,38] },
+    G: { name: "Visioning",           items: [3,11,25,35] },
+    H: { name: "Bridging",            items: [4,16,26,39] },
+    I: { name: "Consensus",           items: [10,15,27,36] },
+    J: { name: "Joint Problem Solving",items: [8,20,23,40] }
+};
+
+// Render items
+const container = document.getElementById('items-container');
+let currentSection = null;
+
+items.forEach(item => {
+    // Determine if push or pull
+    const isPush = Object.values(pushStyles).some(s => s.items.includes(item.n));
+    const cls = isPush ? 'push-sub' : 'pull-sub';
+
+    const row = document.createElement('div');
+    row.className = 'item-row';
+    row.innerHTML = `
+        <span class="item-num">${item.n}</span>
+        <span class="item-text">${item.text}</span>
+        <input type="number" class="score-input" id="item${item.n}" min="0" max="4" placeholder="0–4" autocomplete="off">
+    `;
+    container.appendChild(row);
+
+    // Track fills
+    const input = row.querySelector('input');
+    input.addEventListener('input', () => {
+        input.classList.toggle('filled', input.value !== '');
+    });
+});
+
+function getScore(n) {
+    const el = document.getElementById(`item${n}`);
+    return el ? parseInt(el.value) || 0 : 0;
+}
+
+function calcStyle(styleObj) {
+    return styleObj.items.reduce((sum, n) => sum + getScore(n), 0);
+}
+
+function calculateResults() {
+    // Validate all filled
+    for (let i = 1; i <= 40; i++) {
+        const el = document.getElementById(`item${i}`);
+        if (!el || el.value === '') {
+            alert(`Please enter a score for item ${i} before submitting.`);
+            el && el.focus();
+            return;
+        }
+        const v = parseInt(el.value);
+        if (isNaN(v) || v < 0 || v > 4) {
+            alert(`Item ${i}: please enter a number between 0 and 4.`);
+            el.focus();
+            return;
+        }
+    }
+
+    // Calculate substyle scores
+    const pushScores = {};
+    let pushTotal = 0;
+    Object.entries(pushStyles).forEach(([k, s]) => {
+        pushScores[k] = calcStyle(s);
+        pushTotal += pushScores[k];
+    });
+
+    const pullScores = {};
+    let pullTotal = 0;
+    Object.entries(pullStyles).forEach(([k, s]) => {
+        pullScores[k] = calcStyle(s);
+        pullTotal += pullScores[k];
+    });
+
+    const dominant = pushTotal >= pullTotal ? 'push' : 'pull';
+    const dominantLabel = dominant === 'push' ? 'Push' : 'Pull';
+
+    const descriptions = {
+        push: `<strong>Push</strong> influencers tend to be direct, assertive and outcome-focused. They drive change through the force of their arguments, their positional authority, or by creating clear incentives and pressures. Push approaches can be highly effective when speed matters or when a clear lead is needed — but overuse can generate resistance or undermine collaboration.`,
+        pull: `<strong>Pull</strong> influencers tend to be engaging, empathetic and relationship-focused. They create change by inspiring, involving and energising others. Pull approaches build lasting commitment and trust — but may require more time and patience, and can feel too passive in high-stakes or time-pressured situations.`
+    };
+
+    const resultsEl = document.getElementById('results');
+    resultsEl.style.display = 'block';
+
+    // Build substyle cards for push
+    let pushCards = Object.entries(pushStyles).map(([k, s]) => {
+        const score = pushScores[k];
+        const pct = Math.round((score / 16) * 100);
+        return `<div class="substyle-card push-sub">
+            <div class="substyle-name">${s.name}</div>
+            <span class="substyle-score">${score}</span><span class="substyle-max"> / 16</span>
+            <div class="bar-wrap"><div class="bar-fill push-bar" style="width:${pct}%"></div></div>
+        </div>`;
+    }).join('');
+
+    let pullCards = Object.entries(pullStyles).map(([k, s]) => {
+        const score = pullScores[k];
+        const pct = Math.round((score / 16) * 100);
+        return `<div class="substyle-card pull-sub">
+            <div class="substyle-name">${s.name}</div>
+            <span class="substyle-score">${score}</span><span class="substyle-max"> / 16</span>
+            <div class="bar-wrap"><div class="bar-fill pull-bar" style="width:${pct}%"></div></div>
+        </div>`;
+    }).join('');
+
+    resultsEl.innerHTML = `
+        <div class="dominant-banner">Your dominant style: ${dominantLabel}</div>
+        <h2>Push vs Pull</h2>
+
+        <div class="totals-grid">
+            <div class="total-card push">
+                <div class="total-label">Push Total</div>
+                <div class="total-score">${pushTotal}</div>
+                <div class="total-max">out of 80</div>
+            </div>
+            <div class="total-card pull">
+                <div class="total-label">Pull Total</div>
+                <div class="total-score">${pullTotal}</div>
+                <div class="total-max">out of 80</div>
+            </div>
+        </div>
+
+        <div class="style-desc">${descriptions[dominant]}</div>
+
+        <h3>Push sub-styles</h3>
+        <div class="substyles-grid">${pushCards}</div>
+
+        <h3>Pull sub-styles</h3>
+        <div class="substyles-grid">${pullCards}</div>
+
+        <h3>Reflection</h3>
+        <p>Consider which sub-styles you scored highest in — these are your natural go-to moves. Are there styles you scored low in that might be worth developing? Effective influencers can flex across both push and pull approaches depending on context.</p>
+
+        <p style="font-size:12px; color:#999; margin-top:24px;">Adapted from Govier, I.</p>
+    `;
+
+    resultsEl.scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
