@@ -6,7 +6,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-<title>AI readiness checklist</title>
+<title>Negotiation Style Quiz</title>
 <style>
     :root {
         --AIMblue: #4353A3;
@@ -35,30 +35,19 @@
         overflow: hidden;
     }
 
-    .slide-container {
+    .questions-container {
         padding: 30px;
         padding-top: 15px;
-    }
-
-    .slide {
-        display: none;
-        width: 100%;
-    }
-
-    .slide.active {
-        display: block;
-    }
-
-    .slide h3 {
-        color: var(--AIMblue);
-        margin-bottom: 25px;
-        text-align: center;
+        height: 85vh;
+        overflow-y: scroll;
     }
 
     fieldset {
-        border: none;
-        margin: 0;
-        padding: 0;
+        margin: 5px;
+        border: solid 2px var(--darkBlue);
+        border-radius: 8px;
+        padding: 10px 20px;
+        background: #AEBAE466;
     }
 
     .checkContainer {
@@ -66,7 +55,7 @@
         align-items: flex-start;
         margin: 20px 0;
         padding: 15px;
-        background-color: var(--grey);
+        background-color: white;
         border-radius: 8px;
     }
 
@@ -99,59 +88,9 @@
         cursor: pointer;
     }
 
-    .navigation {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        padding: 20px 30px;
-        background-color: var(--grey);
-    }
-
-    .nav-buttons {
-        display: flex;
-        gap: 10px;
-    }
-
-    .nav-button {
-        width: 40px;
-        height: 40px;
-        border: 2px solid var(--AIMblue);
-        background-color: var(--white);
-        color: var(--AIMblue);
-        border-radius: 50%;
-        cursor: pointer;
+    legend {
         font-weight: bold;
-        transition: all 0.3s ease;
-    }
-
-    .nav-button:hover {
-        background-color: var(--lightBlue);
-    }
-
-    .nav-button.active {
-        background-color: var(--AIMblue);
-        color: var(--white);
-    }
-
-    .arrow-button {
-        padding: 10px 20px;
-        background-color: #5DC8B990;
-        color: black;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: background-color 0.3s ease;
-    }
-
-    .arrow-button:hover:not(:disabled) {
-        background-color: var(--darkBlue);
-        color: white;
-    }
-
-    .arrow-button:disabled {
-        background-color: #ccc;
-        cursor: not-allowed;
+        color:var(--darkBlue);
     }
 
     .submit-button {
@@ -164,7 +103,6 @@
         font-size: 18px;
         font-weight: bold;
         margin: 20px auto;
-        display: none;
     }
 
     .submit-button:hover {
@@ -214,370 +152,492 @@
         margin-bottom: 20px;
     }
 
-    .progress-bar {
-        height: 6px;
-        background-color: var(--grey);
-        margin: 0 30px 20px;
-        border-radius: 3px;
-        overflow: hidden;
-    }
-
-    .progress-fill {
-        height: 100%;
-        background-color: var(--teal);
-        transition: width 0.3s ease;
-        width: 20%;
-    }
-
     @media screen and (max-width: 600px) {
         .quiz-container {
             margin: 0;
         }
 
-        .slide-container,
-        .navigation,
         .instructions {
             padding: 15px;
-        }
-
-        .nav-buttons {
-            gap: 5px;
-        }
-
-        .nav-button {
-            width: 35px;
-            height: 35px;
-            font-size: 14px;
-        }
-
-        .arrow-button {
-            padding: 8px 12px;
-            font-size: 14px;
         }
     }
 </style>
 </head>
 <body>
     <div class="instructions">
-        <p><strong>Instructions:</strong> Use this quiz to assess where your organisation stands today. For each factor, select the description that best matches your current situation.</p>
+        <p><strong>Instructions:</strong> For each of the statement pairs that follow, select the option which is most typically like you.</p>
     </div>
 
     <div class="quiz-container">
-        <nav class="navigation" aria-label="Quiz navigation">
-            <div class="nav-buttons" role="tablist">
-                <button class="nav-button active" onclick="goToSlide(1)" role="tab" aria-selected="true" aria-controls="slide-1" id="tab-1" aria-label="Question 1">1</button>
-                <button class="nav-button" onclick="goToSlide(2)" role="tab" aria-selected="false" aria-controls="slide-2" id="tab-2" aria-label="Question 2">2</button>
-                <button class="nav-button" onclick="goToSlide(3)" role="tab" aria-selected="false" aria-controls="slide-3" id="tab-3" aria-label="Question 3">3</button>
-                <button class="nav-button" onclick="goToSlide(4)" role="tab" aria-selected="false" aria-controls="slide-4" id="tab-4" aria-label="Question 4">4</button>
-                <button class="nav-button" onclick="goToSlide(5)" role="tab" aria-selected="false" aria-controls="slide-5" id="tab-5" aria-label="Question 5">5</button>
-            </div>
-        </nav>
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill" role="progressbar"></div>
-        </div>
-        <form name="q1" onsubmit="return false" onchange="updateSubmitButton()">
-            <div class="slide-container" id="slideContainer" role="region" aria-live="polite">
+        <form name="q1" onsubmit="return false">
+            <div class="questions-container" id="slideContainer" role="region" aria-live="polite">
 
-                <!-- Slide 1 -->
-                <fieldset class="slide active" id="slide-1" role="tabpanel" aria-labelledby="tab-1">
-                    <legend>
-                        <h3>Data quality and structure</h3>
-                    </legend>
-
+                <!-- Question 1 -->
+                <fieldset>
+                    <legend>1</legend>
                     <div class="checkContainer">
-                        <p>
-                            <label for="q1-a">Our financial data is mostly clean, well-structured and extracted from consistent systems.</label>
-                        </p>
-                        <input type="radio" id="q1-a" name="question1" value="a" autocomplete="off">
+                        <p><label for="q1-a">I focus on solving the other party's problem.</label></p>
+                        <input type="radio" id="q1-a" name="question1" value="e" autocomplete="off">
                     </div>
-
                     <div class="checkContainer">
-                        <p>
-                            <label for="q1-b">Our data requires significant manual cleaning and comes from multiple inconsistent sources.</label>
-                        </p>
-                        <input type="radio" id="q1-b" name="question1" value="b" autocomplete="off">
-                    </div>
-
-                    <div class="checkContainer">
-                        <p>
-                            <label for="q1-c">We are somewhere in between: some data is well-structured, other areas need work.</label>
-                        </p>
-                        <input type="radio" id="q1-c" name="question1" value="c" autocomplete="off">
+                        <p><label for="q1-b">I try to avoid unnecessary conflicts.</label></p>
+                        <input type="radio" id="q1-b" name="question1" value="d" autocomplete="off">
                     </div>
                 </fieldset>
 
-                <!-- Slide 2 -->
-                <fieldset class="slide" id="slide-2" role="tabpanel" aria-labelledby="tab-2">
-                    <legend>
-                        <h3>Reporting process maturity</h3>
-                    </legend>
-
+                <!-- Question 2 -->
+                <fieldset>
+                    <legend>2</legend>
                     <div class="checkContainer">
-                        <p>
-                            <label for="q2-a">We have documented, repeatable reporting processes with clear templates and timelines.</label>
-                        </p>
-                        <input type="radio" id="q2-a" name="question2" value="a" autocomplete="off">
+                        <p><label for="q2-a">I seek the middle ground between our positions.</label></p>
+                        <input type="radio" id="q2-a" name="question2" value="c" autocomplete="off">
                     </div>
-
                     <div class="checkContainer">
-                        <p>
-                            <label for="q2-b">Our reporting processes are largely manual and vary between periods or team members.</label>
-                        </p>
+                        <p><label for="q2-b">I search for the problems underlying our disagreements.</label></p>
                         <input type="radio" id="q2-b" name="question2" value="b" autocomplete="off">
                     </div>
+                </fieldset>
 
+                <!-- Question 3 -->
+                <fieldset>
+                    <legend>3</legend>
                     <div class="checkContainer">
-                        <p>
-                            <label for="q2-c">We have some documented processes but there is room for greater consistency.</label>
-                        </p>
-                        <input type="radio" id="q2-c" name="question2" value="c" autocomplete="off">
+                        <p><label for="q3-a">I search for a fair compromise.</label></p>
+                        <input type="radio" id="q3-a" name="question3" value="c" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q3-b">I work hard to preserve the relationship.</label></p>
+                        <input type="radio" id="q3-b" name="question3" value="e" autocomplete="off">
                     </div>
                 </fieldset>
 
-                <!-- Slide 3 -->
-                <fieldset class="slide" id="slide-3" role="tabpanel" aria-labelledby="tab-3">
-                    <legend>
-                        <h3>Team comfort with AI</h3>
-                    </legend>
-
+                <!-- Question 4 -->
+                <fieldset>
+                    <legend>4</legend>
                     <div class="checkContainer">
-                        <p>
-                            <label for="q3-a">Most team members have used generative AI tools and are open to using them in their work.</label>
-                        </p>
-                        <input type="radio" id="q3-a" name="question3" value="a" autocomplete="off">
+                        <p><label for="q4-a">I try to defuse tense situations.</label></p>
+                        <input type="radio" id="q4-a" name="question4" value="d" autocomplete="off">
                     </div>
-
                     <div class="checkContainer">
-                        <p>
-                            <label for="q3-b">Few team members have tried AI tools and there is significant caution or scepticism.</label>
-                        </p>
-                        <input type="radio" id="q3-b" name="question3" value="b" autocomplete="off">
-                    </div>
-
-                    <div class="checkContainer">
-                        <p>
-                            <label for="q3-c">There is a mix: some enthusiasts, some sceptics, and many who are undecided.</label>
-                        </p>
-                        <input type="radio" id="q3-c" name="question3" value="c" autocomplete="off">
+                        <p><label for="q4-b">I gain concessions by being persistent.</label></p>
+                        <input type="radio" id="q4-b" name="question4" value="a" autocomplete="off">
                     </div>
                 </fieldset>
 
-                <!-- Slide 4 -->
-                <fieldset class="slide" id="slide-4" role="tabpanel" aria-labelledby="tab-4">
-                    <legend>
-                        <h3>Governance readiness</h3>
-                    </legend>
-
+                <!-- Question 5 -->
+                <fieldset>
+                    <legend>5</legend>
                     <div class="checkContainer">
-                        <p>
-                            <label for="q4-a">We have an AI use policy and clear guidelines for using AI in financial processes.</label>
-                        </p>
-                        <input type="radio" id="q4-a" name="question4" value="a" autocomplete="off">
+                        <p><label for="q5-a">I tactfully resolve many disagreements.</label></p>
+                        <input type="radio" id="q5-a" name="question5" value="d" autocomplete="off">
                     </div>
-
                     <div class="checkContainer">
-                        <p>
-                            <label for="q4-b">We have no AI-specific policies and limited governance around new technology use.</label>
-                        </p>
-                        <input type="radio" id="q4-b" name="question4" value="b" autocomplete="off">
-                    </div>
-
-                    <div class="checkContainer">
-                        <p>
-                            <label for="q4-c">We have general technology policies that could be extended to cover AI use.</label>
-                        </p>
-                        <input type="radio" id="q4-c" name="question4" value="c" autocomplete="off">
+                        <p><label for="q5-b">I expect "give and take" in negotiations.</label></p>
+                        <input type="radio" id="q5-b" name="question5" value="c" autocomplete="off">
                     </div>
                 </fieldset>
 
-                <!-- Slide 5 -->
-                <fieldset class="slide" id="slide-5" role="tabpanel" aria-labelledby="tab-5">
-                    <legend>
-                        <h3>Access to AI tools</h3>
-                    </legend>
-
+                <!-- Question 6 -->
+                <fieldset>
+                    <legend>6</legend>
                     <div class="checkContainer">
-                        <p>
-                            <label for="q5-a">Our organisation provides approved access to generative AI tools that accept file uploads.</label>
-                        </p>
-                        <input type="radio" id="q5-a" name="question5" value="a" autocomplete="off">
+                        <p><label for="q6-a">I clearly communicate my goals.</label></p>
+                        <input type="radio" id="q6-a" name="question6" value="a" autocomplete="off">
                     </div>
-
                     <div class="checkContainer">
-                        <p>
-                            <label for="q5-b">We do not currently have approved access to generative AI tools.</label>
-                        </p>
-                        <input type="radio" id="q5-b" name="question5" value="b" autocomplete="off">
+                        <p><label for="q6-b">I focus my attention on the other side's needs.</label></p>
+                        <input type="radio" id="q6-b" name="question6" value="b" autocomplete="off">
                     </div>
-
-                    <div class="checkContainer">
-                        <p>
-                            <label for="q5-c">Some team members have access through individual subscriptions but there is no organisational policy.</label>
-                        </p>
-                        <input type="radio" id="q5-c" name="question5" value="c" autocomplete="off">
-                    </div>
-
-                    <button class="submit-button" id="submitButton" onclick="formOne()" aria-label="Submit quiz and view results">
-                        Submit & View Results
-                    </button>
                 </fieldset>
+
+                <!-- Question 7 -->
+                <fieldset>
+                    <legend>7</legend>
+                    <div class="checkContainer">
+                        <p><label for="q7-a">I prefer to put off confrontations with other people.</label></p>
+                        <input type="radio" id="q7-a" name="question7" value="d" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q7-b">I win my points by making strong arguments.</label></p>
+                        <input type="radio" id="q7-b" name="question7" value="a" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 8 -->
+                <fieldset>
+                    <legend>8</legend>
+                    <div class="checkContainer">
+                        <p><label for="q8-a">I am usually willing to compromise.</label></p>
+                        <input type="radio" id="q8-a" name="question8" value="c" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q8-b">I enjoy winning concessions.</label></p>
+                        <input type="radio" id="q8-b" name="question8" value="a" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 9 -->
+                <fieldset>
+                    <legend>9</legend>
+                    <div class="checkContainer">
+                        <p><label for="q9-a">I candidly address all the problems between us.</label></p>
+                        <input type="radio" id="q9-a" name="question9" value="b" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q9-b">I care more about the relationship than winning the last concession.</label></p>
+                        <input type="radio" id="q9-b" name="question9" value="e" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 10 -->
+                <fieldset>
+                    <legend>10</legend>
+                    <div class="checkContainer">
+                        <p><label for="q10-a">I try to avoid unnecessary personal conflicts.</label></p>
+                        <input type="radio" id="q10-a" name="question10" value="d" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q10-b">I seek fair compromises.</label></p>
+                        <input type="radio" id="q10-b" name="question10" value="c" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 11 -->
+                <fieldset>
+                    <legend>11</legend>
+                    <div class="checkContainer">
+                        <p><label for="q11-a">I give concessions and expect some concessions in return.</label></p>
+                        <input type="radio" id="q11-a" name="question11" value="c" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q11-b">I strive to achieve all my goals in negotiations.</label></p>
+                        <input type="radio" id="q11-b" name="question11" value="a" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 12 -->
+                <fieldset>
+                    <legend>12</legend>
+                    <div class="checkContainer">
+                        <p><label for="q12-a">I enjoy getting concessions more than making them.</label></p>
+                        <input type="radio" id="q12-a" name="question12" value="a" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q12-b">I strive to maintain the relationship.</label></p>
+                        <input type="radio" id="q12-b" name="question12" value="e" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 13 -->
+                <fieldset>
+                    <legend>13</legend>
+                    <div class="checkContainer">
+                        <p><label for="q13-a">I accommodate their needs to preserve the relationship.</label></p>
+                        <input type="radio" id="q13-a" name="question13" value="e" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q13-b">I leave confrontational situations to others if I can.</label></p>
+                        <input type="radio" id="q13-b" name="question13" value="d" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 14 -->
+                <fieldset>
+                    <legend>14</legend>
+                    <div class="checkContainer">
+                        <p><label for="q14-a">I try to address the other person's needs.</label></p>
+                        <input type="radio" id="q14-a" name="question14" value="e" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q14-b">I work hard to achieve all my goals.</label></p>
+                        <input type="radio" id="q14-b" name="question14" value="a" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 15 -->
+                <fieldset>
+                    <legend>15</legend>
+                    <div class="checkContainer">
+                        <p><label for="q15-a">I make sure to discuss my goals.</label></p>
+                        <input type="radio" id="q15-a" name="question15" value="a" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q15-b">I emphasise areas on which we agree.</label></p>
+                        <input type="radio" id="q15-b" name="question15" value="d" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 16 -->
+                <fieldset>
+                    <legend>16</legend>
+                    <div class="checkContainer">
+                        <p><label for="q16-a">I am always looking out for the relationship.</label></p>
+                        <input type="radio" id="q16-a" name="question16" value="e" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q16-b">I give concessions and expect the other side to do the same.</label></p>
+                        <input type="radio" id="q16-b" name="question16" value="c" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 17 -->
+                <fieldset>
+                    <legend>17</legend>
+                    <div class="checkContainer">
+                        <p><label for="q17-a">I identify and discuss all our differences.</label></p>
+                        <input type="radio" id="q17-a" name="question17" value="b" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q17-b">I try to avoid creating unnecessary tensions.</label></p>
+                        <input type="radio" id="q17-b" name="question17" value="d" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 18 -->
+                <fieldset>
+                    <legend>18</legend>
+                    <div class="checkContainer">
+                        <p><label for="q18-a">I obtain my share of concessions.</label></p>
+                        <input type="radio" id="q18-a" name="question18" value="a" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q18-b">I strive to maintain relationships.</label></p>
+                        <input type="radio" id="q18-b" name="question18" value="e" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 19 -->
+                <fieldset>
+                    <legend>19</legend>
+                    <div class="checkContainer">
+                        <p><label for="q19-a">I identify and discuss all our differences.</label></p>
+                        <input type="radio" id="q19-a" name="question19" value="b" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q19-b">I look for the middle ground.</label></p>
+                        <input type="radio" id="q19-b" name="question19" value="c" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 20 -->
+                <fieldset>
+                    <legend>20</legend>
+                    <div class="checkContainer">
+                        <p><label for="q20-a">I try to develop good relations with the other party.</label></p>
+                        <input type="radio" id="q20-a" name="question20" value="e" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q20-b">I develop options that address both of our needs.</label></p>
+                        <input type="radio" id="q20-b" name="question20" value="b" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 21 -->
+                <fieldset>
+                    <legend>21</legend>
+                    <div class="checkContainer">
+                        <p><label for="q21-a">I seek the middle ground.</label></p>
+                        <input type="radio" id="q21-a" name="question21" value="c" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q21-b">I strive to achieve my goals in negotiations.</label></p>
+                        <input type="radio" id="q21-b" name="question21" value="a" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 22 -->
+                <fieldset>
+                    <legend>22</legend>
+                    <div class="checkContainer">
+                        <p><label for="q22-a">I identify all our differences and look for solutions.</label></p>
+                        <input type="radio" id="q22-a" name="question22" value="b" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q22-b">I try to avoid unnecessary conflicts.</label></p>
+                        <input type="radio" id="q22-b" name="question22" value="d" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 23 -->
+                <fieldset>
+                    <legend>23</legend>
+                    <div class="checkContainer">
+                        <p><label for="q23-a">I try to preserve the relationship.</label></p>
+                        <input type="radio" id="q23-a" name="question23" value="e" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q23-b">I propose a fair compromise.</label></p>
+                        <input type="radio" id="q23-b" name="question23" value="c" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 24 -->
+                <fieldset>
+                    <legend>24</legend>
+                    <div class="checkContainer">
+                        <p><label for="q24-a">I try to emphasize the issues on which we agree.</label></p>
+                        <input type="radio" id="q24-a" name="question24" value="d" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q24-b">I uncover and address the things on which we disagree.</label></p>
+                        <input type="radio" id="q24-b" name="question24" value="b" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 25 -->
+                <fieldset>
+                    <legend>25</legend>
+                    <div class="checkContainer">
+                        <p><label for="q25-a">I work hard to achieve my goals.</label></p>
+                        <input type="radio" id="q25-a" name="question25" value="a" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q25-b">I pay attention to the other person's needs.</label></p>
+                        <input type="radio" id="q25-b" name="question25" value="b" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 26 -->
+                <fieldset>
+                    <legend>26</legend>
+                    <div class="checkContainer">
+                        <p><label for="q26-a">I look for the fair compromise.</label></p>
+                        <input type="radio" id="q26-a" name="question26" value="c" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q26-b">I try to identify all the underlying problems.</label></p>
+                        <input type="radio" id="q26-b" name="question26" value="b" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 27 -->
+                <fieldset>
+                    <legend>27</legend>
+                    <div class="checkContainer">
+                        <p><label for="q27-a">I avoid creating unnecessary disagreements.</label></p>
+                        <input type="radio" id="q27-a" name="question27" value="d" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q27-b">I focus on solving the other person's problem.</label></p>
+                        <input type="radio" id="q27-b" name="question27" value="e" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 28 -->
+                <fieldset>
+                    <legend>28</legend>
+                    <div class="checkContainer">
+                        <p><label for="q28-a">I strive to achieve my goals.</label></p>
+                        <input type="radio" id="q28-a" name="question28" value="a" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q28-b">I work to address everyone's needs.</label></p>
+                        <input type="radio" id="q28-b" name="question28" value="b" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 29 -->
+                <fieldset>
+                    <legend>29</legend>
+                    <div class="checkContainer">
+                        <p><label for="q29-a">I propose a fair compromise.</label></p>
+                        <input type="radio" id="q29-a" name="question29" value="c" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q29-b">I avoid unnecessary personal confrontations.</label></p>
+                        <input type="radio" id="q29-b" name="question29" value="d" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <!-- Question 30 -->
+                <fieldset>
+                    <legend>30</legend>
+                    <div class="checkContainer">
+                        <p><label for="q30-a">I work hard to preserve the relationship.</label></p>
+                        <input type="radio" id="q30-a" name="question30" value="e" autocomplete="off">
+                    </div>
+                    <div class="checkContainer">
+                        <p><label for="q30-b">I try to identify the underlying issues.</label></p>
+                        <input type="radio" id="q30-b" name="question30" value="b" autocomplete="off">
+                    </div>
+                </fieldset>
+
+                <button class="submit-button" id="submitButton" onclick="formOne()" aria-label="Submit quiz and view results">
+                    Submit &amp; View Results
+                </button>
 
             </div>
         </form>
-
-        <nav class="navigation" aria-label="Quiz navigation">
-            <button class="arrow-button" id="prevBtn" onclick="previousSlide()" aria-label="Previous question">
-                ← Previous
-            </button>
-            <button class="arrow-button" id="nextBtn" onclick="nextSlide()" aria-label="Next question">
-                Next →
-            </button>
-        </nav>
     </div>
 
     <!-- Results Display -->
     <div id="results" role="region" aria-live="polite" aria-label="Quiz results"></div>
 
 <script>
-let currentSlide = 1;
-const totalSlides = 5;
-
-function goToSlide(slideNumber) {
-    const slides = document.querySelectorAll('.slide');
-    slides.forEach(slide => slide.classList.remove('active'));
-    document.getElementById(`slide-${slideNumber}`).classList.add('active');
-    currentSlide = slideNumber;
-    updateButtons();
-    updateArrowButtons();
-    updateProgressBar();
-    updateSubmitButton();
-}
-
-function nextSlide() {
-    if (currentSlide < totalSlides) goToSlide(currentSlide + 1);
-}
-
-function previousSlide() {
-    if (currentSlide > 1) goToSlide(currentSlide - 1);
-}
-
-function updateButtons() {
-    const buttons = document.querySelectorAll('.nav-button');
-    buttons.forEach((btn, index) => {
-        btn.classList.remove('active');
-        btn.setAttribute('aria-selected', 'false');
-        if (index === currentSlide - 1) {
-            btn.classList.add('active');
-            btn.setAttribute('aria-selected', 'true');
-        }
-    });
-}
-
-function updateArrowButtons() {
-    document.getElementById('prevBtn').disabled = currentSlide === 1;
-    document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
-}
-
-function updateProgressBar() {
-    const progress = (currentSlide / totalSlides) * 100;
-    document.getElementById('progressFill').style.width = `${progress}%`;
-}
-
-function updateSubmitButton() {
-    const submitButton = document.getElementById('submitButton');
-    if (currentSlide === totalSlides) {
-        submitButton.style.display = 'block';
-        const form = document.forms['q1'];
-        let answeredCount = 0;
-        for (let i = 1; i <= totalSlides; i++) {
-            const question = form.elements[`question${i}`];
-            if (question && question.value) answeredCount++;
-        }
-        submitButton.disabled = answeredCount !== totalSlides;
-    } else {
-        submitButton.style.display = 'none';
-    }
-}
+const totalSlides = 30;
 
 function formOne() {
     const form = document.forms['q1'];
-    let countA = 0, countB = 0, countC = 0;
+    let countA = 0, countB = 0, countC = 0, countD = 0, countE = 0;
 
     for (let i = 1; i <= totalSlides; i++) {
         const question = form.elements[`question${i}`];
-        if (!question || !question.value) return false;
+        if (!question || !question.value) {
+            alert(`Please answer question ${i} before submitting.`);
+            return false;
+        }
         if (question.value === 'a') countA++;
         else if (question.value === 'b') countB++;
         else if (question.value === 'c') countC++;
+        else if (question.value === 'd') countD++;
+        else if (question.value === 'e') countE++;
     }
 
     const results = document.getElementById("results");
     results.style.display = "block";
 
     const styles = {
-        'a': {
-            label: 'Mostly option 1 — Well positioned',
-            title: 'Ready for quick wins',
-            description: 'Your organisation has the fundamentals in place. You could move to prompt template libraries and workflow integration relatively quickly, focusing on efficiency gains with clear human review processes.'
-        },
-        'b': {
-            label: 'Mostly option 2 — Foundational work needed',
-            title: 'Build the foundations first',
-            description: 'Foundational work on data quality, process documentation and governance policies will deliver the greatest return before introducing AI tools at scale.'
-        },
-        'c': {
-            label: 'Mixed results — Start small',
-            title: 'Start with low-risk quick wins',
-            description: 'Start with one or two low-risk quick wins to build evidence and confidence, while addressing the foundational gaps in parallel.'
-        }
+        'a': { label: 'Competing – ‘I win, you lose’', description: 'A highly competitive approach may give you a win in any one negotiation, but it can damage long-term relationships. You may drive a really hard bargain which the other party seems willing to live with it at the time, but it might not be long before they start build resentment and become reluctant to do business with you again.' },
+        'b': { label: 'Collaborating – ‘We both win’', description: 'A collaborative approach favours strong relationships and the value of fair and equitable outcomes for all. Like all negotiating styles, it has its shortcomings. For example, a collaborative approach may prove to be impossible when you’re dealing with someone who has an entrenched win-lose approach to negotiation and refuses to be persuaded otherwise, despite your most skilful efforts.' },
+        'c': { label: 'Compromising – ‘We both win and lose a little’', description: 'Compromising may help you safeguard existing relationships by simply splitting the difference between your position and that of the other party. It doesn’t necessarily give either of you the best deal possible. You should adopt a compromise approach if it’s clear that you don’t have enough common ground to adopt a collaborative approach or if a competitive approach seems risky.' },
+        'd': { label: 'Avoiding – ‘Neither of us wins’', description: 'If you adopt an avoidance approach you may buy yourself some temporary peace of mind and freedom from possible conflict. Avoiding may also be a legitimate and powerful tactic in some circumstances. It may be a way of withdrawing from conflict with the other party and postponing certain issues to a time when you will be in a better position to negotiate.' },
+        'e': { label: 'Accommodating – ‘I lose, you win’', description: 'This style may be used to intentionally focus on the needs and wants of the other party. In this scenario, the negotiator gives more than takes, often in the hopes that this generosity will be reciprocated in future negotiations. Alternatively, in some negotiation scenarios, it can also be taken as a sign of weakness that the other party will try to exploit.' }
     };
 
-    const maxCount = Math.max(countA, countB, countC);
-
-    // Check for ties
-    const tiedItems = [];
-    if (countA === maxCount) tiedItems.push('a');
-    if (countB === maxCount) tiedItems.push('b');
-    if (countC === maxCount) tiedItems.push('c');
+    const counts = { a: countA, b: countB, c: countC, d: countD, e: countE };
+    const maxCount = Math.max(countA, countB, countC, countD, countE);
+    const dominant = Object.keys(counts).filter(k => counts[k] === maxCount);
 
     let resultHTML = '';
 
-    if (tiedItems.length > 1) {
-        resultHTML = `<div class="score-display">Mixed results — balanced across multiple areas</div><h2>No single dominant pattern</h2><p>Your responses are evenly spread across multiple readiness levels. Consider the areas below and start with the one where quick progress is most achievable:</p>`;
-        tiedItems.forEach(item => {
-            resultHTML += `<h3>${styles[item].title}</h3><p>${styles[item].description}</p>`;
+    if (dominant.length > 1) {
+        resultHTML = `<div class="score-display">Balanced across multiple styles</div><h2>No single dominant style</h2><p>Your responses are spread across multiple negotiation styles. You may adapt your approach depending on the situation.</p>`;
+        dominant.forEach(d => {
+            resultHTML += `<h3>${styles[d].label}</h3><p>${styles[d].description}</p>`;
         });
     } else {
-        const dominant = tiedItems[0];
+        const d = dominant[0];
         resultHTML = `
-            <div class="score-display">${styles[dominant].label}</div>
-            <h2>${styles[dominant].title}</h2>
-            <p>${styles[dominant].description}</p>
+            <div class="score-display">Your dominant style: ${styles[d].label}</div>
+            <h2>${styles[d].label}</h2>
+            <p>${styles[d].description}</p>
         `;
     }
 
-    // Always show the breakdown
     resultHTML += `
-        <h3>Your responses</h3>
-        <p>Option 1 (strong): <strong>${countA}</strong> &nbsp;|&nbsp; Option 2 (needs work): <strong>${countB}</strong> &nbsp;|&nbsp; Option 3 (mixed): <strong>${countC}</strong></p>
+        <h3>Your full breakdown</h3>
+        <p>
+            Competing (A): <strong>${countA}</strong> &nbsp;|&nbsp;
+            Collaborating (B): <strong>${countB}</strong> &nbsp;|&nbsp;
+            Compromising (C): <strong>${countC}</strong> &nbsp;|&nbsp;
+            Avoiding (D): <strong>${countD}</strong> &nbsp;|&nbsp;
+            Accommodating (E): <strong>${countE}</strong>
+        </p>
     `;
 
     results.innerHTML = resultHTML;
     results.scrollIntoView({ behavior: 'smooth' });
 }
-
-document.addEventListener('keydown', function(event) {
-    if (event.target.tagName === 'INPUT') {
-        if (event.key === 'Enter') event.preventDefault();
-        return;
-    }
-    if (event.key === 'ArrowLeft') { event.preventDefault(); previousSlide(); }
-    else if (event.key === 'ArrowRight') { event.preventDefault(); nextSlide(); }
-});
-
-updateArrowButtons();
-updateProgressBar();
-updateSubmitButton();
 </script>
 </body>
 </html>
