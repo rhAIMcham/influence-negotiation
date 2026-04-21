@@ -2,132 +2,102 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Integrating complexity</title>
+    <title>Switch the approach</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 <style>
+:root {
+  --AIMblue: #4353A3;
+  --darkBlue: #38416D;
+  --teal: #5DC8B9;
+  --cream: #F1EEDE;
+  --grey: #e7e9ec;
+  --rust: #AF4510;
+  --navy: #12195C;
+  --white: #ffffff;
+  --lightBlue: #AEBAE4;
+}
+
+body {
+  font-family: "IBM Plex Sans", sans-serif;
+  margin: 20px;
+}
+
 .txta {
   width: 100%;
   min-height: 50px;
   font-family: "IBM Plex Sans", sans-serif;
-  font-size: 16px;
+  font-size: 15px;
   overflow: hidden;
   line-height: 1.4;
+  padding: 6px 8px;
+  border: 1px solid var(--lightBlue);
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: none;
 }
+
+.txta:focus {
+  outline: 2px solid var(--AIMblue);
+  border-color: var(--AIMblue);
+}
+
 button {
-font-family: "IBM Plex Sans", sans-serif;
-    margin: 20px 10px;
-    background-color: #12195C;
-    color: white;
-    width: 200px;
-    border: solid 2px var(--cream);
-    border-radius: 8px;
-    cursor: pointer;
-    padding: 10px;
-    font-size: 1rem;
-    display: block;
+  font-family: "IBM Plex Sans", sans-serif;
+  margin: 10px 10px 10px 0;
+  background-color: var(--navy);
+  color: white;
+  width: 200px;
+  border: solid 2px var(--cream);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 1rem;
+  display: inline-block;
 }
-:root {
-        --AIMblue: #4353A3;
-        --darkBlue: #38416D;
-        --teal: #5DC8B9;
-        --cream: #F1EEDE;
-        --grey: #e7e9ec;
-        --rust: #AF4510;
-        --navy: #12195C;
-        --white: #ffffff;
-        --lightBlue: #AEBAE4;
-      }
-input {
-  border: none;
-  width: fit-content;
-  
+
+button:hover {
+  background-color: var(--AIMblue);
 }
-/* td:first-child {
-    font-weight: bold;
-    font-size: 1.1rem;
-} */
-      body {
-        font-family: "IBM Plex Sans", sans-serif;
-      }
 
-      table {
-        width: 100%;
-        margin:0;
-        padding:0;
-        border-collapse: collapse;
-        border-spacing: 0;
-        text-align: left;
-      }
+table {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  text-align: left;
+}
 
-      table tr {
-        border: 1px solid var(--AIMblue);
-        padding: 5px;
-      }
+table tr {
+  border: 1px solid var(--AIMblue);
+  padding: 5px;
+}
 
-      table th, table td {
-        border: 1px solid var(--AIMblue);
-        padding: 10px;
-      }
+table th, table td {
+  border: 1px solid var(--AIMblue);
+  padding: 10px;
+  vertical-align: top;
+}
 
-      table th {
-        font-size: 16px;
-        font-weight: bold;
-        letter-spacing: 1px;
-        background-color: var(--darkBlue);
-        color: var(--white)
-      }
-      tr:nth-child(even) {
-  background-color: var(--grey); /*Grey of torment!*/
-} 
+table th {
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  background-color: var(--darkBlue);
+  color: var(--white);
+}
 
-      tr:nth-child(odd) {
-  background-color: white; 
-} 
+tr:nth-child(even) { background-color: var(--grey); }
+tr:nth-child(odd)  { background-color: white; }
 
-/*     @media screen and (max-width: 800px) {
+.worked-example td {
+  background-color: #dce3f5 !important;
+  font-style: italic;
+}
 
-        table {
-          border: 0;
-          border: none;
-        }
-
-        table thead {
-          display: none;
-        }
-
-        table tr {
-          margin-bottom: 10px;
-          display: block;
-          border-bottom: 2px solid var(--AIMblue);
-          border-left: 1px solid var(--lightBlue);
-          border-right: 1px solid var(--lightBlue);
-          border-top: 1px solid var(--lightBlue);
-        }
-
-        table td {
-          display: block;
-          text-align: right;
-          font-size: 13px;
-          border-bottom: 1px dotted var(--rust);
-          border-left: 0px dotted #ccc;
-          border-right: 0px dotted #ccc;
-          border-top: 0px dotted #ccc;
-        }
-
-        table td:last-child {
-          border-bottom: 0;
-        }
-
-        table td:before {
-          content: attr(data-label);
-          float: left;
-          font-weight: bold;
-        }
-      }*/
-
-/* Modal styles */
+/* Modal */
 .modal {
   position: fixed;
   inset: 0;
@@ -146,338 +116,284 @@ input {
   position: relative;
   background: #fff;
   border-radius: 8px;
-  padding: 18px;
+  padding: 24px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  width: 92%;
-  max-width: 1000px;
+  width: 95%;
+  max-width: 1100px;
   max-height: 90vh;
   overflow: auto;
 }
 .modal-close {
   background: var(--rust);
   color: var(--white);
+  border-color: var(--rust);
 }
-.static-answer {
-  white-space: pre-wrap;
-  min-height: 50px;
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  padding: 8px;
-  border: 1px solid var(--AIMblue);
-  border-radius: 4px;
-  background: #fff;
+.modal-close:hover {
+  background: #8a360d;
 }
-#answers-container table {
-  width: 100%;
-  border-collapse: collapse;
+
+.answer-cell {
+  font-size: 15px;
+  line-height: 1.5;
 }
-#answers-container td, #answers-container th {
-  padding: 10px;
-  border: 1px solid var(--AIMblue);
+.answer-label {
+  display: inline-block;
+  font-weight: bold;
+  color: var(--rust);
+  margin-bottom: 4px;
 }
-.answers-table-textarea {
-  width: 100%;
-  min-height: 50px;
-  font-family: "IBM Plex Sans", sans-serif;
-  font-size: 16px;
-  line-height: 1.4;
-  padding: 8px;
-  border: 1px solid var(--AIMblue);
-  border-radius: 4px;
-  resize: vertical;
+.answer-text {
+  color: #222;
+}
+.answer-quote {
+  margin-top: 6px;
+  padding: 8px 12px;
+  border-left: 3px solid var(--teal);
+  background: #f5fffe;
+  font-style: italic;
+  color: #333;
 }
 </style>
-  </head>
+</head>
 <body>
-<table>
-   <colgroup>
-        <col style="width: 35%;">
-        <col style="width: 10%;">
-        <col style="width: 55%;">
-      </colgroup>
+<table id="main-table">
+  <colgroup>
+    <col style="width: 34%;">
+    <col style="width: 18%;">
+    <col style="width: 48%;">
+  </colgroup>
   <thead>
-    <th>Statement</th>
-    <th>Red flag</th>
-    <th>Influence-based alternative</th>
-
+    <tr>
+      <th>Statement</th>
+      <th>Red flag</th>
+      <th>Influence-based alternative</th>
+    </tr>
   </thead>
   <tbody>
+    <!-- Worked example (read-only) -->
+    <tr class="worked-example">
+      <td><strong>Worked example</strong><br>"There's a lot of interest, so if you don't decide today, you'll probably miss out."</td>
+      <td>False urgency</td>
+      <td>Real timing. "There has been strong interest, and I can't guarantee it will still be available later. Take the time you need, but I can talk you through the main points now so you can make an informed decision."</td>
+    </tr>
+    <!-- Row 1 -->
     <tr>
-        <td data-label="Task">
-    Choose a date and time for the mixer.
-        </td>
-        <td data-label="Complexity level">
-           Too easy
-        </td>
-        <td data-label="Your strategy">
-            <textarea placeholder="Enter your strategy here" class="txta"></textarea>
-        </td>
+      <td>"The main thing to focus on is how much you'll gain from this."</td>
+      <td><textarea class="txta" placeholder="Name the red flag…"></textarea></td>
+      <td><textarea class="txta" placeholder="Write an influence-based alternative…"></textarea></td>
     </tr>
+    <!-- Row 2 -->
     <tr>
-        <td data-label="Task">
- Create a simple digital invitation and send it to attendees.
-        </td>
-        <td data-label="Complexity level">
-           Too easy
-        </td>
-        <td data-label="Your strategy">
-            <textarea placeholder="Enter your strategy here" class="txta"></textarea>
-        </td>
+      <td>"After everything I've done for you, the least you can do is agree."</td>
+      <td><textarea class="txta" placeholder="Name the red flag…"></textarea></td>
+      <td><textarea class="txta" placeholder="Write an influence-based alternative…"></textarea></td>
     </tr>
-   <tr>
-        <td data-label="Task">
-Plan engaging activities to help guests connect naturally.
-        </td>
-        <td data-label="Complexity level">
-           Too challenging
-        </td>
-        <td data-label="Your strategy">
-            <textarea placeholder="Enter your strategy here" class="txta"></textarea>
-        </td>
+    <!-- Row 3 -->
+    <tr>
+      <td>"You can see this is the only sensible option, can't you?"</td>
+      <td><textarea class="txta" placeholder="Name the red flag…"></textarea></td>
+      <td><textarea class="txta" placeholder="Write an influence-based alternative…"></textarea></td>
     </tr>
-   <tr>
-        <td data-label="Task">
- Coordinate with multiple departments to co-host the event, ensuring alignment on goals, budget and attendance.
-        </td>
-        <td data-label="Complexity level">
-             Too challenging
-        </td>
-        <td data-label="Your strategy">
-            <textarea placeholder="Enter your strategy here" class="txta"></textarea>
-        </td>
+    <!-- Row 4 -->
+    <tr>
+      <td>"You hit the target, but the bonus only applies if the team result is met as well."</td>
+      <td><textarea class="txta" placeholder="Name the red flag…"></textarea></td>
+      <td><textarea class="txta" placeholder="Write an influence-based alternative…"></textarea></td>
     </tr>
-
+    <!-- Row 5 -->
+    <tr>
+      <td>"It's all straightforward once you get into it."</td>
+      <td><textarea class="txta" placeholder="Name the red flag…"></textarea></td>
+      <td><textarea class="txta" placeholder="Write an influence-based alternative…"></textarea></td>
+    </tr>
+    <!-- Row 6 -->
+    <tr>
+      <td>"You never mentioned wanting insurance, so I didn't think it was important."</td>
+      <td><textarea class="txta" placeholder="Name the red flag…"></textarea></td>
+      <td><textarea class="txta" placeholder="Write an influence-based alternative…"></textarea></td>
+    </tr>
   </tbody>
 </table>
-<div style="margin:12px 0; display:flex; gap:8px;">
-  <button id="export-png" type="button">Export PNG</button>
-  <button id="export-pdf" type="button">Export PDF</button>
-</div>
-<!-- Added id to Answers button so JS can open modal -->
-<button id="show-answers" type="button">Answers</button>
 
-<!-- Modal: separate editable answers table -->
+<div style="margin: 16px 0; display: flex; flex-wrap: wrap; gap: 0;">
+  <button id="export-png">Export PNG</button>
+  <button id="export-pdf">Export PDF</button>
+  <button id="show-answers">Answers</button>
+</div>
+
+<!-- Answers Modal -->
 <div id="answers-modal" class="modal" aria-hidden="true">
   <div class="modal-backdrop" data-close="true"></div>
   <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="answers-title">
-    <h2 id="answers-title">Guide to designing personal cues</h2>
-    <div id="answers-container">
-<table>
-   <colgroup>
+    <h2 id="answers-title" style="color: var(--navy); margin-top:0;">Switch the Approach — Answers</h2>
+    <table>
+      <colgroup>
         <col style="width: 30%;">
-        <col style="width: 20%;">
-        <col style="width: 50%;">
+        <col style="width: 18%;">
+        <col style="width: 52%;">
       </colgroup>
-  <thead>
-    <th>Task</th>
-    <th>Complexity level</th>
-    <th>Strategy</th>
-
-  </thead>
-  <tbody>
-    <tr>
-        <td data-label="Task">
-    Choose a date and time for the mixer.
-        </td>
-        <td data-label="Complexity level">
-           Too easy
-        </td>
-        <td data-label="Strategy">
-          Add complexity: Select venue and coordinate basic logistics.
-        </td>
-    </tr>
-    <tr>
-        <td data-label="Task">
- Create a simple digital invitation and send it to attendees.
-        </td>
-        <td data-label="Complexity level">
-           Too easy
-        </td>
-        <td data-label="Strategy">
-           Collaborate with others: Work with the overwhelmed graphic designer to design company aligned invitation
-        </td>
-    </tr>
-   <tr>
-        <td data-label="Task">
-Plan engaging activities to help guests connect naturally.
-        </td>
-        <td data-label="Complexity level">
-           Too challenging
-        </td>
-        <td data-label="Strategy">
-           Collaborate with others: Brainstorm with the team in charge of activities at the event before deciding
-        </td>
-    </tr>
-   <tr>
-        <td data-label="Task">
- Coordinate with multiple departments to co-host the event, ensuring alignment on goals, budget and attendance.
-        </td>
-        <td data-label="Complexity level">
-             Too challenging
-        </td>
-        <td data-label="Strategy">
-            Simplify the task: Only consult with those who can make decision e.g. on budgets
-        </td>
-    </tr>
-
-  </tbody>
-</table>
-    </div>
-       <button id="close-answers" class="modal-close" aria-label="Close answers">Close</button>
+      <thead>
+        <tr>
+          <th>Statement</th>
+          <th>Red flag</th>
+          <th>Influence-based alternative</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Worked example -->
+        <tr class="worked-example">
+          <td><strong>Worked example</strong><br>"There's a lot of interest, so if you don't decide today, you'll probably miss out."</td>
+          <td class="answer-cell"><span class="answer-label">False urgency</span></td>
+          <td class="answer-cell">
+            <span class="answer-label">Real timing.</span>
+            <div class="answer-quote">"There has been strong interest, and I can't guarantee it will still be available later. Take the time you need, but I can talk you through the main points now so you can make an informed decision."</div>
+          </td>
+        </tr>
+        <!-- Row 1 -->
+        <tr>
+          <td>"The main thing to focus on is how much you'll gain from this."</td>
+          <td class="answer-cell"><span class="answer-label">Selective information</span></td>
+          <td class="answer-cell">
+            <span class="answer-label">Full context with clear framing.</span>
+            <div class="answer-quote">"There are clear benefits here, especially X, and there are also other factors worth weighing. Taken together, I still think it is worth serious consideration because…"</div>
+          </td>
+        </tr>
+        <!-- Row 2 -->
+        <tr>
+          <td>"After everything I've done for you, the least you can do is agree."</td>
+          <td class="answer-cell"><span class="answer-label">Guilt or obligation pressure</span></td>
+          <td class="answer-cell">
+            <span class="answer-label">Direct significance.</span>
+            <div class="answer-quote">"I'm asking you to consider this because it would make a real difference to the outcome. The reason I think it matters is…"</div>
+          </td>
+        </tr>
+        <!-- Row 3 -->
+        <tr>
+          <td>"You can see this is the only sensible option, can't you?"</td>
+          <td class="answer-cell"><span class="answer-label">Cornering questions</span></td>
+          <td class="answer-cell">
+            <span class="answer-label">Open questions.</span>
+            <div class="answer-quote">"How does this option look from your side? I can see why you might have reservations. The reason I still think it deserves serious consideration is…"</div>
+          </td>
+        </tr>
+        <!-- Row 4 -->
+        <tr>
+          <td>"You hit the target, but the bonus only applies if the team result is met as well."</td>
+          <td class="answer-cell"><span class="answer-label">Shifting goalposts</span></td>
+          <td class="answer-cell">
+            <span class="answer-label">Explicit reset.</span>
+            <div class="answer-quote">"You've met the target we discussed. There is also a separate condition tied to the team result, and I should make that clear now so you can judge the full position properly."</div>
+          </td>
+        </tr>
+        <!-- Row 5 -->
+        <tr>
+          <td>"It's all straightforward once you get into it."</td>
+          <td class="answer-cell"><span class="answer-label">Pressure through ambiguity</span></td>
+          <td class="answer-cell">
+            <span class="answer-label">Clear meaning.</span>
+            <div class="answer-quote">"To be clear, this involves X, Y, and Z. If you're comfortable with those parts, then it may still be worth considering."</div>
+          </td>
+        </tr>
+        <!-- Row 6 -->
+        <tr>
+          <td>"You never mentioned wanting insurance, so I didn't think it was important."</td>
+          <td class="answer-cell"><span class="answer-label">Withholding choice</span></td>
+          <td class="answer-cell">
+            <span class="answer-label">Framed choice.</span>
+            <div class="answer-quote">"There were a few options available, including insurance. I should have taken you through them properly. The main difference is…"</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button id="close-answers" class="modal-close">Close</button>
   </div>
 </div>
-</body>
+
+<!-- Auto-grow textareas -->
 <script>
-  // Targets all textareas with class "txta"
-let textareas = document.querySelectorAll('.txta'),
-    hiddenDiv = document.createElement('div'),
-    content = null;
+(function() {
+  function autoGrow(ta) {
+    const hiddenDiv = document.createElement('div');
+    hiddenDiv.style.cssText = [
+      'position:absolute','visibility:hidden','overflow:hidden',
+      'width:' + ta.offsetWidth + 'px',
+      'font-family:' + getComputedStyle(ta).fontFamily,
+      'font-size:' + getComputedStyle(ta).fontSize,
+      'line-height:' + getComputedStyle(ta).lineHeight,
+      'padding:6px 8px','white-space:pre-wrap','word-wrap:break-word'
+    ].join(';');
+    document.body.appendChild(hiddenDiv);
 
-// Adds a class to all textareas
-for (let j of textareas) {
-  j.classList.add('txtstuff');
-}
-
-// Build the hidden div's attributes
-
-// The line below is needed if you move the style lines to CSS
-// hiddenDiv.classList.add('hiddendiv');
-
-// Add the "txta" styles, which are common to both textarea and hiddendiv
-// If you want, you can remove those from CSS and add them via JS
-hiddenDiv.classList.add('txta');
-
-// Add the styles for the hidden div
-// These can be in the CSS, just remove these three lines and uncomment the CSS
-hiddenDiv.style.display = 'none';
-hiddenDiv.style.whiteSpace = 'pre-wrap';
-hiddenDiv.style.wordWrap = 'break-word';
-
-// Loop through all the textareas and add the event listener
-for(let i of textareas) {
-  (function(i) {
-    // Note: Use 'keyup' instead of 'input'
-    // if you want older IE support
-    i.addEventListener('input', function() {
-      
-      // Append hiddendiv to parent of textarea, so the size is correct
-      i.parentNode.appendChild(hiddenDiv);
-      
-      // Remove this if you want the user to be able to resize it in modern browsers
-      i.style.resize = 'none';
-      
-            // This removes scrollbars
-      i.style.overflow = 'hidden';
-     
-      // Every input/change, grab the content
-      content = i.value;
-
-      // Add the same content to the hidden div
-      
-      // This is for old IE
-      content = content.replace(/\n/g, '<br>');
-      
-      // The <br ..> part is for old IE
-      // This also fixes the jumpy way the textarea grows if line-height isn't included
-      hiddenDiv.innerHTML = content + '<br style="line-height: 3px;">';
-
-      // Briefly make the hidden div block but invisible
-      // This is in order to read the height
-      hiddenDiv.style.visibility = 'hidden';
-      hiddenDiv.style.display = 'block';
-      i.style.height = hiddenDiv.offsetHeight + 'px';
-
-      // Make the hidden div display:none again
-      hiddenDiv.style.visibility = 'visible';
-      hiddenDiv.style.display = 'none';
+    ta.addEventListener('input', function() {
+      hiddenDiv.style.width = ta.offsetWidth + 'px';
+      hiddenDiv.innerHTML = ta.value.replace(/\n/g, '<br>') + '<br style="line-height:3px">';
+      ta.style.height = (hiddenDiv.offsetHeight + 4) + 'px';
     });
-  })(i);
-}
-</script>
-
-<!-- Add html2canvas and jsPDF (CDN) -->
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script>
-// Export table to PNG
-document.getElementById('export-png').addEventListener('click', async () => {
-  const table = document.querySelector('table');
-  // ensure hiddenDiv doesn't affect capture
-  const canvas = await html2canvas(table, { scale: 2, backgroundColor: '#ffffff', useCORS: true });
-  const dataUrl = canvas.toDataURL('image/png');
-  const link = document.createElement('a');
-  link.href = dataUrl;
-  link.download = 'Integrating-complexity.png';
-  link.click();
-});
-
-// Export table to PDF (A4 portrait)
-document.getElementById('export-pdf').addEventListener('click', async () => {
-  const { jsPDF } = window.jspdf;
-  const table = document.querySelector('table');
-  // capture as image
-  const canvas = await html2canvas(table, { scale: 2, backgroundColor: '#ffffff', useCORS: true });
-  const imgData = canvas.toDataURL('image/png');
-
-  const pdf = new jsPDF('p', 'mm', 'a4');
-  const pdfWidth = pdf.internal.pageSize.getWidth();
-  const pdfHeight = pdf.internal.pageSize.getHeight();
-
-  // compute image dims to keep aspect ratio
-  const imgProps = pdf.getImageProperties(imgData);
-  const imgWidthMm = pdfWidth;
-  const imgHeightMm = (imgProps.height * imgWidthMm) / imgProps.width;
-
-  if (imgHeightMm <= pdfHeight) {
-    pdf.addImage(imgData, 'PNG', 0, 0, imgWidthMm, imgHeightMm);
-  } else {
-    // If long, tile image across pages
-    let position = 0;
-    let remainingHeight = imgHeightMm;
-    // draw first page
-    pdf.addImage(imgData, 'PNG', 0, position, imgWidthMm, imgHeightMm);
-    remainingHeight -= pdfHeight;
-    while (remainingHeight > 0) {
-      position -= pdfHeight;
-      pdf.addPage();
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidthMm, imgHeightMm);
-      remainingHeight -= pdfHeight;
-    }
   }
 
-  pdf.save('Integrating-complexity.pdf');
-});
-</script>
-
-<!-- Modal snapshot JS -->
-<script>
-(function(){
-  const showBtn = document.getElementById('show-answers');
-  const modal = document.getElementById('answers-modal');
-  const closeBtn = document.getElementById('close-answers');
-  const backdrop = modal.querySelector('.modal-backdrop');
-  const answerTextareas = modal.querySelectorAll('.answers-table-textarea');
-
-  function openModal() {
-    modal.classList.add('open');
-    modal.setAttribute('aria-hidden', 'false');
-    closeBtn.focus();
-  }
-
-  function closeModal() {
-    modal.classList.remove('open');
-    modal.setAttribute('aria-hidden', 'true');
-    showBtn.focus();
-  }
-
-  showBtn.addEventListener('click', openModal);
-  closeBtn.addEventListener('click', closeModal);
-  backdrop.addEventListener('click', closeModal);
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
-  });
+  document.querySelectorAll('.txta').forEach(autoGrow);
 })();
 </script>
 
+<!-- Export PNG / PDF -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+document.getElementById('export-png').addEventListener('click', async () => {
+  const table = document.getElementById('main-table');
+  const canvas = await html2canvas(table, { scale: 2, backgroundColor: '#ffffff', useCORS: true });
+  const link = document.createElement('a');
+  link.href = canvas.toDataURL('image/png');
+  link.download = 'switch-the-approach.png';
+  link.click();
+});
+
+document.getElementById('export-pdf').addEventListener('click', async () => {
+  const { jsPDF } = window.jspdf;
+  const table = document.getElementById('main-table');
+  const canvas = await html2canvas(table, { scale: 2, backgroundColor: '#ffffff', useCORS: true });
+  const imgData = canvas.toDataURL('image/png');
+  const pdf = new jsPDF('p', 'mm', 'a4');
+  const pdfWidth = pdf.internal.pageSize.getWidth();
+  const pdfHeight = pdf.internal.pageSize.getHeight();
+  const imgProps = pdf.getImageProperties(imgData);
+  const imgHeightMm = (imgProps.height * pdfWidth) / imgProps.width;
+
+  if (imgHeightMm <= pdfHeight) {
+    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, imgHeightMm);
+  } else {
+    let position = 0;
+    let remaining = imgHeightMm;
+    pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeightMm);
+    remaining -= pdfHeight;
+    while (remaining > 0) {
+      position -= pdfHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeightMm);
+      remaining -= pdfHeight;
+    }
+  }
+  pdf.save('switch-the-approach.pdf');
+});
+</script>
+
+<!-- Modal -->
+<script>
+(function(){
+  const showBtn = document.getElementById('show-answers');
+  const modal   = document.getElementById('answers-modal');
+  const closeBtn = document.getElementById('close-answers');
+  const backdrop = modal.querySelector('.modal-backdrop');
+
+  function open()  { modal.classList.add('open');    modal.setAttribute('aria-hidden','false'); closeBtn.focus(); }
+  function close() { modal.classList.remove('open'); modal.setAttribute('aria-hidden','true');  showBtn.focus(); }
+
+  showBtn.addEventListener('click', open);
+  closeBtn.addEventListener('click', close);
+  backdrop.addEventListener('click', close);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
+})();
+</script>
+
+</body>
 </html>
